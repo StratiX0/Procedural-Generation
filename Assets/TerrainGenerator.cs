@@ -12,6 +12,9 @@ public class TerrainGenerator : MonoBehaviour
     public float offsetX = 100f;
     public float offsetY = 100f;
 
+    public bool animate = true;
+    public float animationSpeed = 5f;
+
     // Update is called once per frame
     void Start()
     {
@@ -21,9 +24,13 @@ public class TerrainGenerator : MonoBehaviour
 
     void Update()
     {
+        if (animate)
+        {
+            offsetX += Time.deltaTime * animationSpeed;
+        }
+
         Terrain terrain = GetComponent<Terrain>();
         terrain.terrainData = GenerateTerrain(terrain.terrainData);
-        offsetX += Time.deltaTime * 5f;
     }
 
     TerrainData GenerateTerrain(TerrainData terrainData)

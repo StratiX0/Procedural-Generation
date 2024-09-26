@@ -11,6 +11,9 @@ public class PerlinNoiseGenerator : MonoBehaviour
     public float offsetX = 100f;
     public float offsetY = 100f;
 
+    public bool animate = false;
+    public float animationSpeed = 5f;
+
     void Start()
     {
         //Renderer renderer = GetComponent<Renderer>();
@@ -22,6 +25,11 @@ public class PerlinNoiseGenerator : MonoBehaviour
 
     void Update()
     {
+        if (animate)
+        {
+            offsetX += Time.deltaTime * animationSpeed;
+        }
+
         Renderer renderer = GetComponent<Renderer>();
         renderer.material.mainTexture = GenerateTexture();
     }
