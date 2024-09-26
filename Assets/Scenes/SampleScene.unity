@@ -156,6 +156,8 @@ MonoBehaviour:
   scale: 20
   offsetX: 100
   offsetY: 100
+  animate: 1
+  animationSpeed: 5
 --- !u!154 &171879485
 TerrainCollider:
   m_ObjectHideFlags: 0
@@ -796,6 +798,8 @@ MonoBehaviour:
   scale: 20
   offsetX: 100
   offsetY: 100
+  animate: 0
+  animationSpeed: 5
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
