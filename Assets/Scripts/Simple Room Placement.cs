@@ -32,11 +32,12 @@ public class SimpleRoomPlacement : MonoBehaviour
         for (int i = 0; i < roomNumbers; i++)
         {
             Vector3 position = new Vector3(Random.Range(0, mapSizeX), 1, Random.Range(0, mapSizeY));
-            room.transform.localScale = new Vector3(Random.Range(2, 9), 1, Random.Range(2, 9));
+            Vector3 scale = new Vector3(Random.Range(2, 9), 1, Random.Range(2, 9));
             roomPositions[i] = position;
             roomSize[i] = room.transform.localScale;
 
-            Instantiate(room, position, Quaternion.identity);
+            GameObject newRoom = Instantiate(room, position, Quaternion.identity);
+            newRoom.transform.localScale = scale;
         }
     }
 }
