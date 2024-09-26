@@ -19,6 +19,7 @@ public class MeshGenerator : MonoBehaviour
     public float offsetY = 100f;
 
     public float depth = 3f;
+    private float lastDepth = 3f;
 
     public float animationSpeed = 5f;
     public bool animate = false;
@@ -38,12 +39,20 @@ public class MeshGenerator : MonoBehaviour
         offsetX = Random.Range(0f, 999999f);
         offsetY = Random.Range(0f, 999999f);
 
+        lastDepth = depth;
+
         CreateShape();
         UpdateMesh();
     }
 
     private void Update()
     {
+        if (lastDepth != depth)
+        {
+            CreateShape();
+            UpdateMesh();
+        }
+
         if (animate)
         {
             CreateShape();
