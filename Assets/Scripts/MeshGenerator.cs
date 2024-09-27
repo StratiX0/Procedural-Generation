@@ -13,15 +13,13 @@ public class MeshGenerator : MonoBehaviour
     public int xSize = 40;
     public int zSize = 40;
 
-    public float scale = 20f;
-
     public float offsetX = 100f;
     public float offsetY = 100f;
 
     public float depth = 3f;
     private float lastDepth = 3f;
 
-    public float animationSpeed = 5f;
+    public float animationSpeed = 2f;
     public bool animate = false;
 
     public Gradient gradient;
@@ -29,12 +27,33 @@ public class MeshGenerator : MonoBehaviour
     float minTerrainHeight;
     float maxTerrainHeight;
 
+    public GameObject PerlinNoiseGenerator;
+    public Texture2D PerlinTexture;
+
+
+    public int width = 256;
+    public int height = 256;
+
+    public float halfWidth = 0f;
+    public float halfHeight = 0f;
+
+    public float scale = 20f;
+    System.Random rand = new System.Random();
+    public int seed = 0;
+    public Vector2 offset = new Vector2(0, 0);
+    public int octaves = 4;
+    [Range(0f, 1f)]
+    public float persistance = 0.5f;
+    public float lacunarity = 2f;
+
     // Start is called before the first frame update
     void Start()
     {
         mesh = new Mesh();
 
         GetComponent<MeshFilter>().mesh = mesh;
+
+        PerlinTexture = PerlinNoiseGenerator.GetComponent<PerlinNoiseGenerator>().GenerateTexture(width, height, scale, seed, offset, octaves, persistance, lacunarity);
 
         offsetX = Random.Range(0f, 999999f);
         offsetY = Random.Range(0f, 999999f);
@@ -47,18 +66,23 @@ public class MeshGenerator : MonoBehaviour
 
     private void Update()
     {
-
         if (animate || lastDepth != depth)
         {
-            CreateShape();
-            UpdateMesh();
+            ModifyMesh();
 
             if (lastDepth != depth)
                 lastDepth = depth;
 
             if (animate)
-                offsetX += Time.deltaTime * animationSpeed;
+                offset.x += Time.deltaTime * animationSpeed;
         }
+    }
+
+    void ModifyMesh()
+    {
+        PerlinTexture = PerlinNoiseGenerator.GetComponent<PerlinNoiseGenerator>().GenerateTexture(width, height, scale, seed, offset, octaves, persistance, lacunarity);
+        CreateShape();
+        UpdateMesh();
     }
 
     void CreateShape()
@@ -69,8 +93,12 @@ public class MeshGenerator : MonoBehaviour
         {
             for (int x = 0; x <= xSize; x++)
             {
-                float y = CalculateHeight(x, z);
+                float textureX = PerlinTexture.width;
+                float textureY = PerlinTexture.height;
+                float y = PerlinTexture.GetPixel(x, z).grayscale * depth;
+                //float y = CalculateHeight(x, z);
                 vertices[i] = new Vector3(x, y, z);
+
                 if (depth == lastDepth)
                 {
                     if (y > maxTerrainHeight)

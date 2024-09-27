@@ -19,17 +19,11 @@ public class PerlinNoiseGenerator : MonoBehaviour
     public float persistance = 0.5f;
     public float lacunarity = 2f;
 
-
-
     public bool animate = false;
     public float animationSpeed = 5f;
 
     void Start()
     {
-        //Renderer renderer = GetComponent<Renderer>();
-        //renderer.material.mainTexture = GenerateTexture();
-        halfWidth = width / 2f;
-        halfHeight = height / 2f;
         seed = rand.Next(999999999);
     }
 
@@ -41,11 +35,14 @@ public class PerlinNoiseGenerator : MonoBehaviour
         }
 
         Renderer renderer = GetComponent<Renderer>();
-        renderer.material.mainTexture = GenerateTexture();
+        renderer.material.mainTexture = GenerateTexture(width, height, scale, seed, offset, octaves, persistance, lacunarity);
     }
 
-    Texture2D GenerateTexture()
+    public Texture2D GenerateTexture(int width, int height, float scale, int seed, Vector2 offset, int octaves, float persistance, float lacunarity)
     {
+        halfWidth = width / 2f;
+        halfHeight = height / 2f;
+
         Texture2D texture = new Texture2D(width, height);
 
         // Generer une Perlin Noise map pour la texture
@@ -97,10 +94,6 @@ public class PerlinNoiseGenerator : MonoBehaviour
 
                 Color color = new Color(noiseHeight, noiseHeight, noiseHeight);
                 texture.SetPixel(x, y, color);
-
-
-
-
             }
         }
         
@@ -121,6 +114,5 @@ public class PerlinNoiseGenerator : MonoBehaviour
             octaves = 1;
         if (lacunarity < 1)
             lacunarity = 1;
-
     }
 }
