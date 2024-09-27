@@ -3,45 +3,37 @@ using UnityEngine;
 [RequireComponent(typeof(MeshFilter))]
 public class MeshGenerator : MonoBehaviour
 {
-    Mesh mesh;
-
-    Vector3[] vertices;
-    int[] triangles;
-    Vector2[] uvs;
-    Color[] colors;
-
+    private Mesh mesh;
+    [Header("Mesh Settings")]
     public int xSize = 40;
     public int zSize = 40;
-
+    private Vector3[] vertices;
+    private int[] triangles;
+    private Vector2[] uvs;
+    private Color[] colors;
+    public Gradient gradient;
+    private float minTerrainHeight;
+    private float maxTerrainHeight;
     public float depth = 3f;
     private float lastDepth = 3f;
 
-    public float animationSpeed = 2f;
-    public bool animate = false;
-
-    public Gradient gradient;
-
-    float minTerrainHeight;
-    float maxTerrainHeight;
-
+    [Header("Perlin Settings")]
     public GameObject PerlinNoiseGenerator;
     public Texture2D PerlinTexture;
-
-
     public int width = 256;
     public int height = 256;
-
-    public float halfWidth = 0f;
-    public float halfHeight = 0f;
-
     public float scale = 20f;
-    System.Random rand = new System.Random();
     public int seed = 0;
     public Vector2 offset = new Vector2(0, 0);
     public int octaves = 4;
     [Range(0f, 1f)]
     public float persistance = 0.5f;
     public float lacunarity = 2f;
+    private System.Random rand = new System.Random();
+
+    [Header("Animation Settings")]
+    public bool animate = false;
+    public float animationSpeed = 2f;
 
     // Start is called before the first frame update
     void Start()
@@ -50,22 +42,18 @@ public class MeshGenerator : MonoBehaviour
 
         GetComponent<MeshFilter>().mesh = mesh;
 
-        PerlinTexture = PerlinNoiseGenerator.GetComponent<PerlinNoiseGenerator>().GenerateTexture(width, height, scale, seed, offset, octaves, persistance, lacunarity);
-
         lastDepth = depth;
 
-        CreateShape();
-        UpdateMesh();
+        seed = rand.Next(999999999);
+
+        ModifyMesh();
     }
 
     private void Update()
     {
-        if (animate || lastDepth != depth)
+        if (animate)
         {
             ModifyMesh();
-
-            if (lastDepth != depth)
-                lastDepth = depth;
 
             if (animate)
                 offset.x += Time.deltaTime * animationSpeed;
@@ -74,7 +62,9 @@ public class MeshGenerator : MonoBehaviour
 
     void ModifyMesh()
     {
-        PerlinTexture = PerlinNoiseGenerator.GetComponent<PerlinNoiseGenerator>().GenerateTexture(width, height, scale, seed, offset, octaves, persistance, lacunarity);
+        PerlinTexture = PerlinNoiseGenerator.GetComponent<PerlinNoiseGenerator>().GenerateTexture(width, height, width / 2f, height / 2f, scale, seed, offset, octaves, persistance, lacunarity);
+        minTerrainHeight = 0f;
+        maxTerrainHeight = 0f;
         CreateShape();
         UpdateMesh();
     }
@@ -90,16 +80,12 @@ public class MeshGenerator : MonoBehaviour
                 float textureX = PerlinTexture.width;
                 float textureY = PerlinTexture.height;
                 float y = PerlinTexture.GetPixel(x, z).grayscale * depth;
-                //float y = CalculateHeight(x, z);
                 vertices[i] = new Vector3(x, y, z);
 
-                if (depth == lastDepth)
-                {
-                    if (y > maxTerrainHeight)
-                        maxTerrainHeight = y;
-                    if (y < minTerrainHeight)
-                        minTerrainHeight = y;
-                }
+                if (y > maxTerrainHeight)
+                    maxTerrainHeight = y;
+                if (y < minTerrainHeight)
+                    minTerrainHeight = y;
 
                 i++;
             }
@@ -138,28 +124,7 @@ public class MeshGenerator : MonoBehaviour
                 i++;
             }
         }
-
-        //// Si image
-        //uvs = new Vector2[vertices.Length];
-
-        //for (int i = 0, z = 0; z <= zSize; z++)
-        //{
-        //    for (int x = 0; x <= xSize; x++)
-        //    {
-        //        uvs[i] = new Vector2((float)x / xSize, (float)z / zSize);
-        //        i++;
-        //    }
-        //}
-
     }
-
-    //float CalculateHeight(int x, int y)
-    //{
-    //    float xCoord = (float)x / xSize * scale + offsetX;
-    //    float yCoord = (float)y / zSize * scale + offsetY;
-
-    //    return Mathf.PerlinNoise(xCoord, yCoord) * depth;
-    //}
 
     void UpdateMesh()
     {
@@ -169,10 +134,26 @@ public class MeshGenerator : MonoBehaviour
         mesh.triangles = triangles;
         mesh.colors = colors;
 
-        //// Si image
-        //mesh.uv = uvs;
-
         mesh.RecalculateNormals();
+    }
+
+    private void OnValidate()
+    {
+        if (width < 1)
+            width = 1;
+        if (height < 1)
+            height = 1;
+        if (seed < 0)
+            seed = 0;
+        if (octaves < 1)
+            octaves = 1;
+        if (lacunarity < 1)
+            lacunarity = 1;
+
+        if (mesh != null && !animate)
+        {
+            ModifyMesh();
+        }
     }
 
     //private void OnDrawGizmos()

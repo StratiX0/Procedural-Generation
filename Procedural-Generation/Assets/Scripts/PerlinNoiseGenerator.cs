@@ -2,46 +2,22 @@ using UnityEngine;
 
 public class PerlinNoiseGenerator : MonoBehaviour
 {
-    public int width = 256;
-    public int height = 256;
-
-    public float halfWidth = 0f;
-    public float halfHeight = 0f;
-
-    public float scale = 20f;
-    System.Random rand = new System.Random();
-    public int seed = 0;
-    public Vector2 offset = new Vector2(0, 0);
-    public int octaves = 4;
-    [Range(0f, 1f)]
-    public float persistance = 0.5f;
-    public float lacunarity = 2f;
-
-    public bool animate = false;
-    public float animationSpeed = 5f;
+    Texture2D texture;
+    Renderer rendererComponent;
 
     void Start()
     {
-        seed = rand.Next(999999999);
+        rendererComponent = GetComponent<Renderer>();
     }
 
     void Update()
     {
-        if (animate)
-        {
-            offset.x += Time.deltaTime * animationSpeed;
-        }
-
-        Renderer renderer = GetComponent<Renderer>();
-        renderer.material.mainTexture = GenerateTexture(width, height, scale, seed, offset, octaves, persistance, lacunarity);
+        rendererComponent.material.mainTexture = texture;
     }
 
-    public Texture2D GenerateTexture(int width, int height, float scale, int seed, Vector2 offset, int octaves, float persistance, float lacunarity)
+    public Texture2D GenerateTexture(int width, int height, float halfWidth, float halfHeight, float scale, int seed, Vector2 offset, int octaves, float persistance, float lacunarity)
     {
-        halfWidth = width / 2f;
-        halfHeight = height / 2f;
-
-        Texture2D texture = new Texture2D(width, height);
+        texture = new Texture2D(width, height);
 
         // Generer une Perlin Noise map pour la texture
 
@@ -98,19 +74,5 @@ public class PerlinNoiseGenerator : MonoBehaviour
         texture.Apply();
 
         return texture;
-    }
-
-    private void OnValidate()
-    {
-        if (width < 1)
-            width = 1;
-        if (height < 1)
-            height = 1;
-        if (seed < 0)
-            seed = 0;
-        if (octaves < 1)
-            octaves = 1;
-        if (lacunarity < 1)
-            lacunarity = 1;
     }
 }
