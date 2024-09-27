@@ -47,18 +47,17 @@ public class MeshGenerator : MonoBehaviour
 
     private void Update()
     {
-        if (lastDepth != depth)
-        {
-            CreateShape();
-            UpdateMesh();
-        }
 
-        if (animate)
+        if (animate || lastDepth != depth)
         {
             CreateShape();
             UpdateMesh();
 
-            offsetX += Time.deltaTime * animationSpeed;
+            if (lastDepth != depth)
+                lastDepth = depth;
+
+            if (animate)
+                offsetX += Time.deltaTime * animationSpeed;
         }
     }
 
@@ -71,13 +70,14 @@ public class MeshGenerator : MonoBehaviour
             for (int x = 0; x <= xSize; x++)
             {
                 float y = CalculateHeight(x, z);
-                //float y = Mathf.PerlinNoise(x * 0.3f, z * 0.3f) * 2;
                 vertices[i] = new Vector3(x, y, z);
-
-                if (y > maxTerrainHeight)
-                    maxTerrainHeight = y;
-                if (y < minTerrainHeight)
-                    minTerrainHeight = y;
+                if (depth == lastDepth)
+                {
+                    if (y > maxTerrainHeight)
+                        maxTerrainHeight = y;
+                    if (y < minTerrainHeight)
+                        minTerrainHeight = y;
+                }
 
                 i++;
             }

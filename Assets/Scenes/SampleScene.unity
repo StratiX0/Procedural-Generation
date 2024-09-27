@@ -602,7 +602,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!23 &1813652948
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -739,7 +739,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!64 &2114932787
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -843,9 +843,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: 256
   height: 256
+  halfWidth: 0
+  halfHeight: 0
   scale: 20
-  offsetX: 100
-  offsetY: 100
+  seed: 0
+  offset: {x: 0, y: 0}
+  octaves: 4
+  persistance: 0.5
+  lacunarity: 2
   animate: 0
   animationSpeed: 5
 --- !u!1660057539 &9223372036854775807
