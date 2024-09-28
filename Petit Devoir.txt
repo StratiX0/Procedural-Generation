@@ -5,8 +5,8 @@ Revoir des truc de base pour ce weekend et l'a présenter lundi en vif :
 -couplage C++/C#, lecture de DLL etc.. si y'a le temps
 
 Erreur :
-fatal: The current branch marcus has no upstream branch.
-To push the current branch and set the remote as upstream, use
+ fatal: The current branch marcus has no upstream branch.
+ To push the current branch and set the remote as upstream, use
 
     git push --set-upstream origin marcus
 
