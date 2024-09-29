@@ -14,10 +14,8 @@ public class MapGenerator : MonoBehaviour
      */
     int[,] map = null;
 
-    /* pour remplir la map de facon aléatoire
-     * et decider a quel point on la rempli de mur
-     */
-    [Range(0,100)]
+    /* pour decider a quel point on la rempli de mur*/
+    [Range(0, 100)]
     public int randomFillPercent;
 
     /*largeur et hauteur de la map*/
@@ -45,11 +43,11 @@ public class MapGenerator : MonoBehaviour
     /*reserve de l'espace pour la matrice*/
     void GenerateMap()
     {
-        map = new int[width,height];
-        
+        map = new int[width, height];
+
     }
 
-    /*genere/initialise la matrice de façon aleatoire à partir d'une graine */
+    /* genere/initialise la matrice de façon aleatoire à partir d'une graine */
     void RandomFillMap()
     {
         if (useRandomSeed) //met a jour la graine 
@@ -65,8 +63,8 @@ public class MapGenerator : MonoBehaviour
         {
             for (int y = 0; y < width; y++)
             {
-                //pseudoRandom est borner entre 0 et 100 si il est inferieur au % de mur dans la map alors map[x,y] vaudra 1,
-                //0sinon
+                //pseudoRandom est borner entre 0 et 100 s'il est inferieur au % de mur dans la map alors map[x,y]
+                //vaudra 1, 0 sinon
                 map[x, y] = pseudoRandom.Next(0, 100) < randomFillPercent ? 1 : 0;
             }
         }
