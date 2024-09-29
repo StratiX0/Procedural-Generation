@@ -813,7 +813,7 @@ GameObject:
   m_Layer: 0
   m_Name: Simple Room Generator
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -830,9 +830,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   room: {fileID: 7447838347128476899, guid: ee962070244b48142806540ea07c7622, type: 3}
-  mapSizeX: 20
-  mapSizeY: 20
-  roomNumbers: 8
+  corridorPrefab: {fileID: 7689925262776552463, guid: fce39c79ac481984d836c444ea830d8a,
+    type: 3}
+  simpleRoomGenerator: {fileID: 1616400610}
+  mapSizeX: 250
+  mapSizeY: 250
+  minRoomSize: 25
+  maxRoomSize: 75
+  roomSpace: 5
+  roomNumbers: 2
+  rooms: []
 --- !u!4 &1616400612
 Transform:
   m_ObjectHideFlags: 0
@@ -842,7 +849,7 @@ Transform:
   m_GameObject: {fileID: 1616400610}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -200}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
