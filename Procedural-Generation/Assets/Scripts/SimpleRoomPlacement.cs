@@ -1,10 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class SimpleRoomPlacement : MonoBehaviour
 {
@@ -24,6 +20,7 @@ public class SimpleRoomPlacement : MonoBehaviour
     private Vector3[] roomPositions;
     private Vector3[] roomSize;
     public List<GameObject> rooms;
+    public List<GameObject> roomsOrdered;
 
     // Start is called before the first frame update
     private void Start()
@@ -77,7 +74,9 @@ public class SimpleRoomPlacement : MonoBehaviour
             rooms.Add(newRoom);
         }
         rooms = rooms.OrderBy(x => x.transform.localPosition.x).ToList();
-        CreateCorridor();
+        //CreateCorridor();
+        //CreateCorridor2();
+        CreateCorridor3();
     }
 
     private void CreateCorridor()
@@ -87,7 +86,8 @@ public class SimpleRoomPlacement : MonoBehaviour
         for (int i = 0; i < rooms.Count; i++)
         {
             var distance = 99999999999999999f;
-            for (int j = 0; j < rooms.Count; j++)
+
+            for (int j = 0; j < rooms.Count - 1; j++)
             {
                 if (rooms[j] == rooms[i])
                     continue;
@@ -137,6 +137,109 @@ public class SimpleRoomPlacement : MonoBehaviour
                     corridor.transform.localPosition = new Vector3(rooms[i].transform.localPosition.x, rooms[i].transform.localPosition.y, rooms[i].transform.localPosition.z - corridor.transform.localScale.z / 2);
                     corridor.GetComponent<MeshRenderer>().material.color = Color.magenta;
                 }
+            }
+        }
+    }
+
+    private void CreateCorridor2()
+    {
+        roomsOrdered = rooms.OrderBy(v => v.transform.localPosition.x - v.transform.localScale.x).ThenBy(v => v.transform.localPosition.z).ToList();
+
+        for (int i = 0; i < roomsOrdered.Count - 1; i++)
+        {
+            GameObject corridor = Instantiate(corridorPrefab, simpleRoomGenerator.transform);
+            corridor.name = "Corridor " + i;
+            corridor.tag = "Corridor";
+
+            bool needNewCorridor = false;
+
+            if (roomsOrdered[i + 1].transform.localPosition.x - roomsOrdered[i].transform.localPosition.x > roomsOrdered[i + 1].transform.localPosition.z - roomsOrdered[i].transform.localPosition.z)
+            {
+
+                var distZmin = roomsOrdered[i].transform.localPosition.z - roomsOrdered[i].transform.localScale.z / 2;
+                var distZmax = roomsOrdered[i].transform.localPosition.z + roomsOrdered[i].transform.localScale.z / 2;
+                var distZmin2 = roomsOrdered[i + 1].transform.localPosition.z - roomsOrdered[i + 1].transform.localScale.z / 2;
+                var distZmax2 = roomsOrdered[i + 1].transform.localPosition.z + roomsOrdered[i + 1].transform.localScale.z / 2;
+
+                var distXmin = roomsOrdered[i].transform.localPosition.x - roomsOrdered[i].transform.localScale.x / 2;
+                var distXmax = roomsOrdered[i].transform.localPosition.x + roomsOrdered[i].transform.localScale.x / 2;
+                var distXmin2 = roomsOrdered[i + 1].transform.localPosition.x - roomsOrdered[i + 1].transform.localScale.x / 2;
+                var distXmax2 = roomsOrdered[i + 1].transform.localPosition.x + roomsOrdered[i + 1].transform.localScale.x / 2;
+
+                Vector3 pos = roomsOrdered[i].transform.localPosition;
+                Vector3 pos2 = roomsOrdered[i + 1].transform.localPosition;
+
+                if ((distZmax > distZmin2 || distZmin < distZmax2) && (distZmin < distXmax2 || distXmax > distXmin2))
+                {
+                    corridor.transform.localScale = new Vector3(roomsOrdered[i + 1].transform.localPosition.x - roomsOrdered[i].transform.localPosition.x, 3, 2);
+                    corridor.transform.localPosition = new Vector3(roomsOrdered[i].transform.localPosition.x + corridor.transform.localScale.x / 2, roomsOrdered[i].transform.localPosition.y, roomsOrdered[i].transform.localPosition.z);
+                    corridor.GetComponent<MeshRenderer>().material.color = Color.green;
+                }
+                else
+                {
+                    corridor.transform.localScale = new Vector3(roomsOrdered[i + 1].transform.localPosition.x - roomsOrdered[i].transform.localPosition.x, 3, 2);
+                    corridor.transform.localPosition = new Vector3(roomsOrdered[i].transform.localPosition.x + corridor.transform.localScale.x / 2, roomsOrdered[i].transform.localPosition.y, roomsOrdered[i].transform.localPosition.z);
+                    needNewCorridor = true;
+                    Debug.Log(needNewCorridor);
+                }
+
+
+                if (needNewCorridor)
+                {
+                    GameObject corridor2 = Instantiate(corridorPrefab, simpleRoomGenerator.transform);
+                    corridor2.name = "Corridor2 " + i;
+                    corridor2.tag = "Corridor";
+                    corridor2.GetComponent<MeshRenderer>().material.color = Color.red;
+
+                    corridor2.transform.localScale = new Vector3(2, 3, pos2.z - pos.z);
+                    corridor2.transform.localPosition = new Vector3(corridor.transform.localPosition.x + corridor.transform.localScale.x / 2, 0, corridor.transform.localPosition.z + (pos2.z - pos.z) / 2);
+                }
+
+
+            }
+
+
+        }
+    }
+
+    private void CreateCorridor3()
+    {
+        if (rooms == null) return;
+
+        HashSet<GameObject> connected = new HashSet<GameObject>();
+
+        for (int i = 0; i < rooms.Count; i++)
+        {
+            GameObject room = rooms[i];
+
+            Dictionary<int, float> room_distance = new Dictionary<int, float>();
+
+            Vector3 point = room.transform.localPosition;
+
+            for (int j = 0; j < rooms.Count; j++)
+            {
+                if (i == j) continue;
+
+                if (connected.Contains(rooms[j])) continue;
+
+                room_distance.Add(j, Vector3.Distance(rooms[j].transform.localPosition, point));
+
+            }
+
+            if (room_distance.Count <= 0) continue;
+            else
+            {
+                connected.Add(room);
+                room_distance.OrderBy(v => v.Value);
+                Debug.Log("Room actuelle = " + room.name + " Room la plus proche = " + rooms[room_distance.Keys.ElementAt(0)].name);
+
+                GameObject corridor = Instantiate(corridorPrefab, simpleRoomGenerator.transform);
+                corridor.name = "Corridor A - " + i;
+                corridor.tag = "Corridor";
+
+                corridor.transform.localScale = new Vector3(rooms[room_distance.Keys.ElementAt(0)].transform.localPosition.x - point.x, 1, 1);
+
+                corridor.transform.localPosition = new Vector3(point.x + corridor.transform.localScale.x / 2, point.y, point.z);
             }
         }
     }

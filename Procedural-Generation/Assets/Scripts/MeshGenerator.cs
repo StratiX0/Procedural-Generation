@@ -149,6 +149,8 @@ public class MeshGenerator : MonoBehaviour
             octaves = 1;
         if (lacunarity < 1)
             lacunarity = 1;
+        if (scale < 0)
+            scale = 0;
 
         if (mesh != null && !animate)
         {
