@@ -529,22 +529,22 @@ MonoBehaviour:
   zSize: 60
   gradient:
     serializedVersion: 2
-    key0: {r: 0, g: 0.16225147, b: 1, a: 1}
-    key1: {r: 0, g: 0.36507684, b: 0.8, a: 1}
+    key0: {r: 0, g: 0.039308168, b: 0.254717, a: 1}
+    key1: {r: 0, g: 0.17818516, b: 0.38679248, a: 1}
     key2: {r: 0.53420687, g: 0.5471698, b: 0.4000534, a: 0}
-    key3: {r: 0, g: 0.24528301, b: 0.009811311, a: 0}
-    key4: {r: 0.2924528, g: 0.2924528, b: 0.2924528, a: 0}
-    key5: {r: 0.6512803, g: 0.6512803, b: 0.6512803, a: 0}
-    key6: {r: 1, g: 1, b: 1, a: 0}
-    key7: {r: 0, g: 0, b: 0, a: 0}
-    ctime0: 964
-    ctime1: 20624
-    ctime2: 25829
-    ctime3: 28913
-    ctime4: 48380
-    ctime5: 57825
-    ctime6: 65535
-    ctime7: 0
+    key3: {r: 0.07600568, g: 0.26415092, b: 0.08188522, a: 0}
+    key4: {r: 0.00591848, g: 0.1792453, b: 0.010733095, a: 0}
+    key5: {r: 0.2924528, g: 0.2924528, b: 0.2924528, a: 0}
+    key6: {r: 0.6512803, g: 0.6512803, b: 0.6512803, a: 0}
+    key7: {r: 1, g: 1, b: 1, a: 0}
+    ctime0: 0
+    ctime1: 20817
+    ctime2: 23516
+    ctime3: 27178
+    ctime4: 37008
+    ctime5: 52235
+    ctime6: 59560
+    ctime7: 65535
     atime0: 0
     atime1: 65535
     atime2: 0
@@ -555,7 +555,7 @@ MonoBehaviour:
     atime7: 0
     m_Mode: 0
     m_ColorSpace: -1
-    m_NumColorKeys: 7
+    m_NumColorKeys: 8
     m_NumAlphaKeys: 2
   depth: 50
   PerlinNoiseGenerator: {fileID: 67063334}
@@ -829,17 +829,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1824e35a11750414f96482e557d6e776, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  room: {fileID: 7447838347128476899, guid: ee962070244b48142806540ea07c7622, type: 3}
-  corridorPrefab: {fileID: 7689925262776552463, guid: fce39c79ac481984d836c444ea830d8a,
-    type: 3}
+  roomPrefab: {fileID: 0}
   simpleRoomGenerator: {fileID: 1616400610}
   mapSizeX: 250
   mapSizeY: 250
   minRoomSize: 25
   maxRoomSize: 75
-  roomSpace: 1
+  roomSpace: 5
   roomNumbers: 5
   rooms: []
+  roomsOrdered: []
 --- !u!4 &1616400612
 Transform:
   m_ObjectHideFlags: 0
