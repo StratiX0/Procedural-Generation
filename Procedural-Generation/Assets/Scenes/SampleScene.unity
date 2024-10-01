@@ -829,7 +829,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1824e35a11750414f96482e557d6e776, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomPrefab: {fileID: 0}
+  roomPrefab: {fileID: 7447838347128476899, guid: ee962070244b48142806540ea07c7622,
+    type: 3}
   simpleRoomGenerator: {fileID: 1616400610}
   mapSizeX: 250
   mapSizeY: 250
