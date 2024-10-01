@@ -163,11 +163,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 186563d197a55544da563717dd7fc58d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomFillPercent: 50
-  width: 60
-  height: 60
-  seed: 
-  useRandomSeed: 0
+  randomFillPercent: 44
+  width: 128
+  height: 80
+  seed: Marcus
+  useRandomSeed: 1
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
