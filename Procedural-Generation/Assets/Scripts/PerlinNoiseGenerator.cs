@@ -15,8 +15,10 @@ public class PerlinNoiseGenerator : MonoBehaviour
         rendererComponent.material.mainTexture = texture;
     }
 
-    public Texture2D GenerateTexture(int width, int height, float halfWidth, float halfHeight, float scale, int seed, Vector2 offset, int octaves, float persistance, float lacunarity)
+    public Texture2D GenerateTexture(int width, int height, float halfWidth, float halfHeight, float scale, int seed, Vector2 offset, int octaves, float persistance, float lacunarity, Vector3 position)
     {
+        this.GetComponent<Transform>().localPosition = position;
+
         texture = new Texture2D(width, height);
 
         // Generer une Perlin Noise map pour la texture

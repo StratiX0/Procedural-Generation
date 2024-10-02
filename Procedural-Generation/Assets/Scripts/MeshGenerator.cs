@@ -62,7 +62,7 @@ public class MeshGenerator : MonoBehaviour
 
     void ModifyMesh()
     {
-        PerlinTexture = PerlinNoiseGenerator.GetComponent<PerlinNoiseGenerator>().GenerateTexture(width, height, width / 2f, height / 2f, scale, seed, offset, octaves, persistance, lacunarity);
+        PerlinTexture = PerlinNoiseGenerator.GetComponent<PerlinNoiseGenerator>().GenerateTexture(width, height, width / 2f, height / 2f, scale, seed, offset, octaves, persistance, lacunarity, new Vector3((xSize * this.GetComponent<Transform>().localScale.x) / 2, 200, (zSize * this.GetComponent<Transform>().localScale.z) / 2));
         minTerrainHeight = 0f;
         maxTerrainHeight = 0f;
         CreateShape();

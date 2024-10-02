@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class SimpleRoomPlacement : MonoBehaviour
 {
-    public GameObject roomPrefab;
+    public bool createNewRooms = false;
+
     public GameObject simpleRoomGenerator;
+    public GameObject roomPrefab;
+    public GameObject roomGenerator;
+    public GameObject corridorGenerator;
 
     public int mapSizeX = 100;
     public int mapSizeY = 100;
@@ -24,8 +28,34 @@ public class SimpleRoomPlacement : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
+        InitSimpleRoom();
+    }
+
+    private void Update()
+    {
+        if (createNewRooms)
+        {
+            InitSimpleRoom();
+            createNewRooms = false;
+        }
+    }
+
+
+
+    private void InitSimpleRoom()
+    {
+        foreach (Transform child in simpleRoomGenerator.transform)
+        {
+            foreach (Transform child2 in child.transform)
+            {
+                GameObject.Destroy(child2.gameObject);
+            }
+        }
         roomPositions = new Vector3[roomNumbers];
         roomSize = new Vector3[roomNumbers];
+        rooms = new List<GameObject>();
+        roomsOrdered = new List<GameObject>();
+
         CreateRoom();
     }
 
@@ -63,7 +93,7 @@ public class SimpleRoomPlacement : MonoBehaviour
             roomPositions[i] = position;
             roomSize[i] = scale;
 
-            GameObject newRoom = Instantiate(roomPrefab, simpleRoomGenerator.transform);
+            GameObject newRoom = Instantiate(roomPrefab, roomGenerator.transform);
             newRoom.name = "Room " + i;
             newRoom.transform.localScale = scale;
             newRoom.transform.localPosition = position;
@@ -108,16 +138,16 @@ public class SimpleRoomPlacement : MonoBehaviour
                 connected.Add(room);
                 roomDistance.OrderBy(v => v.Value);
                 var room2 = rooms[roomDistance.Keys.ElementAt(0)];
-                Debug.Log("Room actuelle = " + room.name + " Room la plus proche = " + room2.name);
 
-                GameObject corridor = Instantiate(roomPrefab, simpleRoomGenerator.transform);
-                corridor.name = "Corridor A - " + i;
-                corridor.tag = "Corridor";
+                GameObject corridor = Instantiate(roomPrefab, corridorGenerator.transform);
                 
                 Vector3 point2 = room2.transform.localPosition;
                 
                 if (point.x - point2.x < point.z - point2.z)
                 {
+                    corridor.name = "Corridor Droite - " + i;
+                    corridor.tag = "Corridor";
+
                     corridor.transform.localScale =  new Vector3(Mathf.Abs(point2.x - point.x), 1, 4);
 
                     corridor.transform.localPosition = new Vector3(point.x < point2.x ? point.x + corridor.transform.localScale.x / 2 : point.x - corridor.transform.localScale.x / 2, point.y, point.z);
@@ -126,8 +156,8 @@ public class SimpleRoomPlacement : MonoBehaviour
 
                     if (corridor.transform.localPosition.z + corridor.transform.localScale.z / 2 > (room2.transform.localPosition.z + room2.transform.localScale.z / 2) || corridor.transform.localPosition.z - corridor.transform.localScale.z / 2 < (room2.transform.localPosition.z - room2.transform.localScale.z / 2))
                     {
-                        GameObject corridor2 = Instantiate(roomPrefab, simpleRoomGenerator.transform);
-                        corridor2.name = "Corridor B - " + i;
+                        GameObject corridor2 = Instantiate(roomPrefab, corridorGenerator.transform);
+                        corridor2.name = "Corridor Bas - " + i;
                         corridor2.tag = "Corridor";
                         
                         corridor2.transform.localScale =  new Vector3(4, 1, Mathf.Abs(point2.z > point.z ? point2.z - point.z : point.z - point2.z));
@@ -139,6 +169,9 @@ public class SimpleRoomPlacement : MonoBehaviour
                 }
                 else
                 {
+                    corridor.name = "Corridor Haut - " + i;
+                    corridor.tag = "Corridor";
+
                     corridor.transform.localScale = new Vector3(4, 1, Mathf.Abs(point2.z > point.z ? point2.z - point.z : point.z - point2.z));
                     
                     corridor.transform.localPosition = new Vector3(point.x, point.y, point.z + corridor.transform.localScale.z / 2);
@@ -148,8 +181,8 @@ public class SimpleRoomPlacement : MonoBehaviour
                     if (corridor.transform.localPosition.x + corridor.transform.localScale.x / 2 < (room2.transform.localPosition.x - room2.transform.localScale.x / 2) ||
                         corridor.transform.localPosition.x - corridor.transform.localScale.x / 2 > (room2.transform.localPosition.x + room2.transform.localScale.x / 2))
                     {
-                        GameObject corridor2 = Instantiate(roomPrefab, simpleRoomGenerator.transform);
-                        corridor2.name = "Corridor B - " + i;
+                        GameObject corridor2 = Instantiate(roomPrefab, corridorGenerator.transform);
+                        corridor2.name = "Corridor Gauche - " + i;
                         corridor2.tag = "Corridor";
                         
                         corridor2.transform.localScale =  new Vector3(Mathf.Abs(point2.x > point.x ? point2.x - point.x : point.x - point2.x), 1, 4);
