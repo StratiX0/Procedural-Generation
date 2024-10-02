@@ -1,16 +1,20 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class SimpleRoomPlacement : MonoBehaviour
 {
     public bool createNewRooms = false;
+    public float timeToCreate = 0.1f;
 
     public GameObject simpleRoomGenerator;
     public GameObject roomPrefab;
     public GameObject roomGenerator;
     public GameObject corridorGenerator;
 
+    public int minMapSize = 100;
     public int mapSizeX = 100;
     public int mapSizeY = 100;
 
@@ -44,6 +48,7 @@ public class SimpleRoomPlacement : MonoBehaviour
 
     private void InitSimpleRoom()
     {
+        StopAllCoroutines();
         foreach (Transform child in simpleRoomGenerator.transform)
         {
             foreach (Transform child2 in child.transform)
@@ -56,11 +61,11 @@ public class SimpleRoomPlacement : MonoBehaviour
         rooms = new List<GameObject>();
         roomsOrdered = new List<GameObject>();
 
-        CreateRoom();
+        StartCoroutine(CreateRoom());
     }
 
     // Creer des salles qui ne se chevauchent pas avec une distance minimale
-    private void CreateRoom()
+    private IEnumerator CreateRoom()
     {
         for (int i = 0; i < roomNumbers; i++)
         {
@@ -101,6 +106,8 @@ public class SimpleRoomPlacement : MonoBehaviour
             newRoom.tag = "Room";
 
             rooms.Add(newRoom);
+
+            yield return new WaitForSeconds(timeToCreate);
         }
         rooms = rooms.OrderBy(x => x.transform.localPosition.x).ToList();
         CreateCorridor();
@@ -143,7 +150,7 @@ public class SimpleRoomPlacement : MonoBehaviour
                 
                 Vector3 point2 = room2.transform.localPosition;
                 
-                if (point.x - point2.x < point.z - point2.z)
+                if (point.x - point2.x < point.z - point2.z || point2.x - point.x > point2.z - point.z)
                 {
                     corridor.name = "Corridor Droite - " + i;
                     corridor.tag = "Corridor";
@@ -195,6 +202,20 @@ public class SimpleRoomPlacement : MonoBehaviour
             }
         }
     }
-    
-    
+
+    private void OnValidate()
+    {
+        if (mapSizeX < minMapSize) mapSizeX = minMapSize;
+        if (mapSizeY < minMapSize) mapSizeY = minMapSize;
+
+        if (roomSpace > mapSizeX * 0.05f) roomSpace = (int)(mapSizeX * 0.05f);
+        if (roomSpace > mapSizeY * 0.05f) roomSpace = (int)(mapSizeY * 0.05f);
+
+        if (maxRoomSize > mapSizeX * 0.1f) maxRoomSize = (int)(mapSizeX * 0.1f);
+        if (maxRoomSize > mapSizeY * 0.1f) maxRoomSize = (int)(mapSizeY * 0.1f);
+        if (maxRoomSize < 1) minRoomSize = 1;
+
+        if (minRoomSize > maxRoomSize) minRoomSize = maxRoomSize;
+        if (minRoomSize < 1) minRoomSize = 1;
+    }
 }
