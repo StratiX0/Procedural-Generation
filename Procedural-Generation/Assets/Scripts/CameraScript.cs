@@ -9,6 +9,7 @@ public class CameraScript : MonoBehaviour
     public GameObject position1;
     public GameObject position2;
     public GameObject position3;
+    public GameObject position4;
 
     // Start is called before the first frame update
     void Start()
@@ -37,6 +38,12 @@ public class CameraScript : MonoBehaviour
         {
             cameraTransform.position = position3.transform.position;
             cameraTransform.rotation = position3.transform.rotation;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            cameraTransform.position = position4.transform.position;
+            cameraTransform.rotation = position4.transform.rotation;
         }
     }
 }

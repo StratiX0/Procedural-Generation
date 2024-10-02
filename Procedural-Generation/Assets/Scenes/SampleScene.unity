@@ -326,7 +326,7 @@ GameObject:
   - component: {fileID: 108927344}
   - component: {fileID: 108927343}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Cellular Automata
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -361,9 +361,9 @@ Transform:
   m_GameObject: {fileID: 108927342}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 3525, y: 0, z: 250}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -592,6 +592,7 @@ MonoBehaviour:
   position1: {fileID: 1009353752}
   position2: {fileID: 1703547766}
   position3: {fileID: 1178995305}
+  position4: {fileID: 910594931}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -1520,6 +1521,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &910594931
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 910594932}
+  m_Layer: 0
+  m_Name: Camera Position 4
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &910594932
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 910594931}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 3500, y: 500, z: 250}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &926078362
 GameObject:
   m_ObjectHideFlags: 0
@@ -3510,6 +3542,7 @@ SceneRoots:
   - {fileID: 1009353753}
   - {fileID: 1703547767}
   - {fileID: 1178995306}
+  - {fileID: 910594932}
   - {fileID: 1609197666}
   - {fileID: 2096899661}
   - {fileID: 108927344}

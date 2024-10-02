@@ -160,7 +160,7 @@ public class MapGenerator : MonoBehaviour
                 for (int y = 0; y < height; y++)
                 {
                     Color color = (map[x, y] == 1) ? Color.black : Color.white; //couleur
-                    Vector3 pos = new Vector3(-width / 2 + x + .5f, 0, -height / 2 + y + .5f);
+                    Vector3 pos = new Vector3(parent.transform.localPosition.x + (-width / 2 + x + .5f), 0, parent.transform.localPosition.z + (-height / 2 + y + .5f));
                     GameObject cube = Instantiate(cubePrefab, parent.transform);
                     cube.transform.position = pos;
                     cube.GetComponent<MeshRenderer>().material.color = color;
