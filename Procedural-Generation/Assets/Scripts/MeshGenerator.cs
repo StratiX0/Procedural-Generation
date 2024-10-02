@@ -16,7 +16,8 @@ public class MeshGenerator : MonoBehaviour
     private float minTerrainHeight;
     private float maxTerrainHeight;
     public float depth = 3f;
-    private float lastDepth = 3f;
+    public bool animate = false;
+    public float animationSpeed = 2f;
 
     [Header("Perlin Settings")]
     public GameObject PerlinNoiseGenerator;
@@ -32,11 +33,16 @@ public class MeshGenerator : MonoBehaviour
     public float lacunarity = 2f;
     private System.Random rand = new System.Random();
 
-    [Header("Animation Settings")]
-    public bool animate = false;
-    public float animationSpeed = 2f;
+    [Header("UI")]
+
+    [SerializeField] GameObject sizeXText = null;
+    [SerializeField] GameObject sizeZText = null;
+    [SerializeField] GameObject depthText = null;
 
     [SerializeField] GameObject speedValue = null;
+    [SerializeField] GameObject scaleText = null;
+
+    [SerializeField] GameObject seedText = null;
 
     // Start is called before the first frame update
     void Start()
@@ -45,9 +51,8 @@ public class MeshGenerator : MonoBehaviour
 
         GetComponent<MeshFilter>().mesh = mesh;
 
-        lastDepth = depth;
-
         seed = rand.Next(999999999);
+        if (seedText != null) seedText.GetComponent<TMP_InputField>().text = seed.ToString();
 
         ModifyMesh();
     }
@@ -165,9 +170,25 @@ public class MeshGenerator : MonoBehaviour
     // UI ----------------------------
 
 
-    public void SetSizeX(string value)
+    public void SetSizeX(float value)
     {
-        xSize = int.Parse(value);
+        xSize = Mathf.RoundToInt(value);
+        if (sizeXText != null) sizeXText.GetComponent<TextMeshProUGUI>().text = xSize.ToString();
+        ModifyMesh();
+    }
+
+    public void SetSizeZ(float value)
+    {
+        zSize = Mathf.RoundToInt(value);
+        if (sizeZText != null) sizeZText.GetComponent<TextMeshProUGUI>().text = zSize.ToString();
+        ModifyMesh();
+    }
+
+    public void SetDepth(float value)
+    {
+        depth = value;
+        if (depthText != null) depthText.GetComponent<TextMeshProUGUI>().text = depth.ToString("F2");
+        ModifyMesh();
     }
 
     public void Animate()
@@ -179,6 +200,35 @@ public class MeshGenerator : MonoBehaviour
     {
         animationSpeed = speed;
         if (speedValue != null) speedValue.GetComponent<TextMeshProUGUI>().text = animationSpeed.ToString("F2");
+    }
+
+    public void SetTexture(int value)
+    {
+        if (value == 0) value = 128;
+        if (value == 1) value = 256;
+        if (value == 2) value = 512;
+        if (value == 3) value = 1024;
+        width = value;
+        height = value;
+        ModifyMesh();
+    }
+
+    public void SetScale(float value)
+    {
+        scale = value;
+        if (scaleText != null) scaleText.GetComponent<TextMeshProUGUI>().text = scale.ToString("F2");
+        ModifyMesh();
+    }
+
+    public void SetSeed(string value)
+    {
+        if (seedText.GetComponent<TMP_InputField>().text.Length < 1) value = "0";
+        int lastSeed = seed;
+        int val = seed;
+        val = int.Parse(value);
+        seed = Mathf.RoundToInt(val);
+        if (seedText != null) seedText.GetComponent<TMP_InputField>().text = seed.ToString();
+        ModifyMesh();
     }
 
     //private void OnDrawGizmos()
