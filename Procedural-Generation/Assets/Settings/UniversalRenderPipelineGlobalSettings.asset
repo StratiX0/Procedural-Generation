@@ -16,11 +16,7 @@ MonoBehaviour:
     m_SettingsList: []
     m_RuntimeSettings: []
   m_AssetVersion: 5
-<<<<<<< HEAD:Procedural-Generation/Assets/UniversalRenderPipelineGlobalSettings.asset
-  m_DefaultVolumeProfile: {fileID: 11400000, guid: 185390673517e004b89d816353126210,
-=======
   m_DefaultVolumeProfile: {fileID: 11400000, guid: 238cd62f6b58cb04e9c94749c4a015a7,
->>>>>>> origin/marcus:Procedural-Generation/Assets/Settings/UniversalRenderPipelineGlobalSettings.asset
     type: 2}
   m_RenderingLayerNames:
   - Light Layer default
