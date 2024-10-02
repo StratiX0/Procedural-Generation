@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter))]
@@ -35,6 +36,8 @@ public class MeshGenerator : MonoBehaviour
     public bool animate = false;
     public float animationSpeed = 2f;
 
+    [SerializeField] GameObject speedValue = null;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -62,7 +65,7 @@ public class MeshGenerator : MonoBehaviour
 
     void ModifyMesh()
     {
-        PerlinTexture = PerlinNoiseGenerator.GetComponent<PerlinNoiseGenerator>().GenerateTexture(width, height, width / 2f, height / 2f, scale, seed, offset, octaves, persistance, lacunarity, new Vector3((xSize * this.GetComponent<Transform>().localScale.x) / 2, 200, (zSize * this.GetComponent<Transform>().localScale.z) / 2));
+        PerlinTexture = PerlinNoiseGenerator.GetComponent<PerlinNoiseGenerator>().GenerateTexture(width, height, width / 2f, height / 2f, scale, seed, offset, octaves, persistance, lacunarity, new Vector3((xSize * this.GetComponent<Transform>().localScale.x) / 2, 150, (zSize * this.GetComponent<Transform>().localScale.z) / 2));
         minTerrainHeight = 0f;
         maxTerrainHeight = 0f;
         CreateShape();
@@ -156,6 +159,26 @@ public class MeshGenerator : MonoBehaviour
         {
             ModifyMesh();
         }
+    }
+
+
+    // UI ----------------------------
+
+
+    public void SetSizeX(string value)
+    {
+        xSize = int.Parse(value);
+    }
+
+    public void Animate()
+    {
+        animate = !animate;
+    }
+
+    public void SetSpeed(float speed)
+    {
+        animationSpeed = speed;
+        if (speedValue != null) speedValue.GetComponent<TextMeshProUGUI>().text = animationSpeed.ToString("F2");
     }
 
     //private void OnDrawGizmos()
