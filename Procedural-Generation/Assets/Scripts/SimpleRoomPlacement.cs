@@ -229,7 +229,7 @@ public class SimpleRoomPlacement : MonoBehaviour
 
     public void CreateRoomsButton()
     {
-        createNewRooms = !createNewRooms;
+        createNewRooms = true;
     }
 
     public void SetTime(float value)
