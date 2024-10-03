@@ -27,7 +27,7 @@ public class MeshGenerator : MonoBehaviour
     public float scale = 20f;
     public int seed = 0;
     public Vector2 offset = new Vector2(0, 0);
-    public int octaves = 4;
+    public int octaves = 3;
     [Range(0f, 1f)]
     public float persistance = 0.5f;
     public float lacunarity = 2f;
@@ -43,6 +43,9 @@ public class MeshGenerator : MonoBehaviour
     [SerializeField] GameObject scaleText = null;
 
     [SerializeField] GameObject seedText = null;
+    [SerializeField] GameObject persistanceText = null;
+    [SerializeField] GameObject octavesText = null;
+    [SerializeField] GameObject lacunarityText = null;
 
     // Start is called before the first frame update
     void Start()
@@ -228,6 +231,27 @@ public class MeshGenerator : MonoBehaviour
         val = int.Parse(value);
         seed = Mathf.RoundToInt(val);
         if (seedText != null) seedText.GetComponent<TMP_InputField>().text = seed.ToString();
+        ModifyMesh();
+    }
+
+    public void SetOctaves(float value)
+    {
+        octaves = Mathf.RoundToInt(value);
+        if (octavesText != null) octavesText.GetComponent<TextMeshProUGUI>().text = octaves.ToString();
+        ModifyMesh();
+    }
+
+    public void SetPersistance(float value)
+    {
+        persistance = value;
+        if (persistanceText != null) persistanceText.GetComponent<TextMeshProUGUI>().text = persistance.ToString("F2");
+        ModifyMesh();
+    }
+
+    public void SetLacunarity(float value)
+    {
+        lacunarity = value;
+        if (lacunarityText != null) lacunarityText.GetComponent<TextMeshProUGUI>().text = lacunarity.ToString("F2");
         ModifyMesh();
     }
 

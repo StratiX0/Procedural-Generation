@@ -34,22 +34,26 @@ public class MapGenerator : MonoBehaviour
     public GameObject cubePrefab;
     public GameObject parent;
 
+    public bool generate = true;
+
 
     // Start is called before the first frame update
     void Start()
     {
         GenerateMap();
         crrrr();
+        generate = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButtonDown(0)) 
+        if(generate) 
         {
             crrrr();
             GenerateMap();
             Debug.Log("Map !!");
+            generate = false;
         }
     }
 
@@ -168,6 +172,11 @@ public class MapGenerator : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void GenerateMapButton()
+    {
+        generate = !generate;
     }
 
     /*pour afficher le gizmo de l'objet et le rendre visible*/

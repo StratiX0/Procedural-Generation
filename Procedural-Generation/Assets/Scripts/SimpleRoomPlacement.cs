@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -29,6 +30,15 @@ public class SimpleRoomPlacement : MonoBehaviour
     public List<GameObject> rooms;
     public List<GameObject> roomsOrdered;
 
+
+    [SerializeField] GameObject timeText;
+    [SerializeField] GameObject MapSizeXText;
+    [SerializeField] GameObject MapSizeYText;
+    [SerializeField] GameObject minRoomSizeText;
+    [SerializeField] GameObject maxRoomSizeText;
+    [SerializeField] GameObject roomSpaceText;
+    [SerializeField] GameObject roomNumbersText;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -43,8 +53,6 @@ public class SimpleRoomPlacement : MonoBehaviour
             createNewRooms = false;
         }
     }
-
-
 
     private void InitSimpleRoom()
     {
@@ -217,5 +225,52 @@ public class SimpleRoomPlacement : MonoBehaviour
 
         if (minRoomSize > maxRoomSize) minRoomSize = maxRoomSize;
         if (minRoomSize < 1) minRoomSize = 1;
+    }
+
+    public void CreateRoomsButton()
+    {
+        createNewRooms = !createNewRooms;
+    }
+
+    public void SetTime(float value)
+    {
+        timeToCreate = value;
+        if (timeText != null) timeText.GetComponent<TextMeshProUGUI>().text = timeToCreate.ToString("F2");
+    }
+
+    public void SetMaxMapSizeX(float value)
+    {
+        mapSizeX = Mathf.RoundToInt(value);
+        if (MapSizeXText != null) MapSizeXText.GetComponent<TextMeshProUGUI>().text = mapSizeX.ToString();
+    }
+
+    public void SetMaxMapSizeY(float value)
+    {
+        mapSizeY = Mathf.RoundToInt(value);
+        if (MapSizeYText != null) MapSizeYText.GetComponent<TextMeshProUGUI>().text = mapSizeY.ToString();
+    }
+
+    public void SetMinRoomSize(float value)
+    {
+        minRoomSize = Mathf.RoundToInt(value);
+        if (minRoomSizeText != null) minRoomSizeText.GetComponent<TextMeshProUGUI>().text = minRoomSize.ToString();
+    }
+
+    public void SetMaxRoomSize(float value)
+    {
+        maxRoomSize = Mathf.RoundToInt(value);
+        if (maxRoomSizeText != null) maxRoomSizeText.GetComponent<TextMeshProUGUI>().text = maxRoomSize.ToString();
+    }
+
+    public void SetRoomSpace(float value)
+    {
+        roomSpace = Mathf.RoundToInt(value);
+        if (roomSpaceText != null) roomSpaceText.GetComponent<TextMeshProUGUI>().text = roomSpace.ToString();
+    }
+
+    public void SetRoomNumber(float value)
+    {
+        roomNumbers = Mathf.RoundToInt(value);
+        if (roomNumbersText != null) roomNumbersText.GetComponent<TextMeshProUGUI>().text = roomNumbers.ToString();
     }
 }
