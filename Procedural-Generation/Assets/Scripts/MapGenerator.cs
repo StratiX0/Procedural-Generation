@@ -4,6 +4,7 @@ using System;
 using UnityEngine;
 using UnityEditor.Animations;
 using Unity.VisualScripting;
+using TMPro;
 
 /*les variables publiques sont visibles et accessibles dans l'inspecteur*/
 
@@ -27,14 +28,17 @@ public class MapGenerator : MonoBehaviour
     public string seed;
 
     /*pour savoir si la seed est utilisé???*/
-    public bool useRandomSeed;
-
-
+    public bool useRandomSeed = false;
 
     public GameObject cubePrefab;
     public GameObject parent;
 
     public bool generate = true;
+
+
+    [SerializeField] GameObject widthText;
+    [SerializeField] GameObject heightText;
+    [SerializeField] GameObject seedText;
 
 
     // Start is called before the first frame update
@@ -50,8 +54,8 @@ public class MapGenerator : MonoBehaviour
     {
         if(generate) 
         {
-            crrrr();
             GenerateMap();
+            crrrr();
             Debug.Log("Map !!");
             generate = false;
         }
@@ -177,6 +181,33 @@ public class MapGenerator : MonoBehaviour
     public void GenerateMapButton()
     {
         generate = !generate;
+        if (seedText != null) seedText.GetComponent<TMP_InputField>().text = seed.ToString();
+    }
+
+    public void SetWidth(float value)
+    {
+        width = Mathf.RoundToInt(value);
+        if (widthText != null) widthText.GetComponent<TextMeshProUGUI>().text = width.ToString();
+    }
+
+    public void SetHeight(float value)
+    {
+        height = Mathf.RoundToInt(value);
+        if (heightText != null) heightText.GetComponent<TextMeshProUGUI>().text = height.ToString();
+    }
+
+    public void SetSeed(string value)
+    {
+        if (seedText.GetComponent<TMP_InputField>().text.Length < 1) value = "0";
+
+        seed = value;
+
+        if (seedText != null) seedText.GetComponent<TMP_InputField>().text = seed.ToString();
+    }
+
+    public void SetRandomSeed()
+    {
+        useRandomSeed = !useRandomSeed;
     }
 
     /*pour afficher le gizmo de l'objet et le rendre visible*/
