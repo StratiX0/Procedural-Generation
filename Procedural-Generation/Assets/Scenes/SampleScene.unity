@@ -160,13 +160,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 104435982}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 186563d197a55544da563717dd7fc58d, type: 3}
+  m_Script: {fileID: 11500000, guid: 23493e9b2487a0b4eb3ee3f5d4169793, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomFillPercent: 44
-  width: 128
-  height: 80
-  seed: Marcus
+  randomFillPercent: 47
+  width: 80
+  height: 60
+  seed: luffy
   useRandomSeed: 1
 --- !u!1 &330585543
 GameObject:

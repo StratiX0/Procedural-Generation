@@ -24,7 +24,7 @@ public class MapGenerator : MonoBehaviour
     /*graine pour faire de l'aléatoire*/
     public string seed;
 
-    /*pour savoir si la seed est utilisé???*/
+    /*pour savoir si la seed est utilisé*/
     public bool useRandomSeed;
 
 
@@ -40,7 +40,6 @@ public class MapGenerator : MonoBehaviour
         if(Input.GetMouseButtonDown(0)) 
         {
             GenerateMap();
-            Debug.Log("Map !!");
         }
     }
 
@@ -48,7 +47,7 @@ public class MapGenerator : MonoBehaviour
     void GenerateMap()
     {
         map = new int[width, height];
-        RandomFillMap();
+        RandomFillMap(); 
 
         for (int i = 0; i < 5; i++) {
             SmoothMap();
@@ -78,7 +77,7 @@ public class MapGenerator : MonoBehaviour
                 }
                 else
                 {
-                    //pseudoRandom est bornée entre 0 et 100 s'il est inferieur au % de mur dans la map alors map[x,y]
+                    //pseudoRandom est bornée entre 0 et 100 : s'il est inferieur au % de mur dans la map alors map[x,y]
                     //vaudra 1, 0 sinon
                     map[x, y] = (pseudoRandom.Next(0, 100) < randomFillPercent) ? 1 : 0;
                 }
