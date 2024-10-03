@@ -10,17 +10,20 @@ public class CameraScript : MonoBehaviour
     [SerializeField] GameObject position2;
     [SerializeField] GameObject position3;
     [SerializeField] GameObject position4;
+    [SerializeField] GameObject position5;
 
     private int index = 0;
 
     [SerializeField] GameObject perlinNoiseMenu;
     [SerializeField] GameObject perlinNoiseMenu2;
     [SerializeField] GameObject simpleroomMenu;
+    [SerializeField] GameObject dlaMenu;
     [SerializeField] GameObject cellularAutomataMenu;
 
     [SerializeField] GameObject perlinNoise;
     [SerializeField] GameObject perlinNoise2;
     [SerializeField] GameObject simpleroom;
+    [SerializeField] GameObject dla;
     [SerializeField] GameObject cellularAutomata;
 
     List<GameObject> menus;
@@ -37,12 +40,14 @@ public class CameraScript : MonoBehaviour
         menus.Add(perlinNoiseMenu);
         menus.Add(perlinNoiseMenu2);
         menus.Add(simpleroomMenu);
+        menus.Add(dlaMenu);
         menus.Add(cellularAutomataMenu);
 
         procGenList = new List<GameObject>();
         procGenList.Add(perlinNoise);
         procGenList.Add(perlinNoise2);
         procGenList.Add(simpleroom);
+        procGenList.Add(dla);
         procGenList.Add(cellularAutomata);
 
         SetMenus(index);
@@ -78,6 +83,13 @@ public class CameraScript : MonoBehaviour
             index = 3;
             cameraTransform.position = position4.transform.position;
             cameraTransform.rotation = position4.transform.rotation;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha5) || Input.GetKeyDown(KeyCode.Keypad5))
+        {
+            index = 4;
+            cameraTransform.position = position5.transform.position;
+            cameraTransform.rotation = position5.transform.rotation;
         }
 
         SetMenus(index);
