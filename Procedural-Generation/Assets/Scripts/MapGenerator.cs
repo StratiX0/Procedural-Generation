@@ -1,9 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using System;
 using UnityEngine;
-using UnityEditor.Animations;
-using Unity.VisualScripting;
 using TMPro;
 
 /*les variables publiques sont visibles et accessibles dans l'inspecteur*/
