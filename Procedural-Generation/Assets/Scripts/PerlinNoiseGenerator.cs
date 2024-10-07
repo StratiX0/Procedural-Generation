@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class PerlinNoiseGenerator : MonoBehaviour
 {
-    Texture2D texture;
-    Renderer rendererComponent;
+    private Texture2D texture;
+    private Renderer rendererComponent;
 
     void Start()
     {
@@ -15,13 +15,12 @@ public class PerlinNoiseGenerator : MonoBehaviour
         rendererComponent.material.mainTexture = texture;
     }
 
+    // Fonction generant une texture de Perlin Noise a partir de parametres
     public Texture2D GenerateTexture(int width, int height, float halfWidth, float halfHeight, float scale, int seed, Vector2 offset, int octaves, float persistance, float lacunarity, Vector3 position)
     {
         this.GetComponent<Transform>().localPosition = position;
 
         texture = new Texture2D(width, height);
-
-        // Generer une Perlin Noise map pour la texture
 
         System.Random rand = new System.Random(seed);
         Vector2[] octaveOffsets = new Vector2[octaves];
@@ -33,8 +32,7 @@ public class PerlinNoiseGenerator : MonoBehaviour
             octaveOffsets[i] = new Vector2(offsetX, offsetY);
         }
 
-        if (scale <= 0)
-            scale = 0.001f;
+        if (scale <= 0) scale = 0.001f;
 
         float noiseHeight = 0f;
         float minNoiseHeight = float.MaxValue;

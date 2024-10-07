@@ -71,6 +71,7 @@ public class MeshGenerator : MonoBehaviour
         }
     }
 
+    // Fonction generale qui va permettre de modifier les mesh
     void ModifyMesh()
     {
         PerlinTexture = PerlinNoiseGenerator.GetComponent<PerlinNoiseGenerator>().GenerateTexture(width, height, width / 2f, height / 2f, scale, seed, offset, octaves, persistance, lacunarity, new Vector3((xSize * this.GetComponent<Transform>().localScale.x) / 2, 150, (zSize * this.GetComponent<Transform>().localScale.z) / 2));
@@ -80,6 +81,7 @@ public class MeshGenerator : MonoBehaviour
         UpdateMesh();
     }
 
+    // Fonction permettant de creer le mesh
     void CreateShape()
     {
         vertices = new Vector3[(xSize + 1) * (zSize + 1)];
@@ -137,6 +139,7 @@ public class MeshGenerator : MonoBehaviour
         }
     }
 
+    // Met a jour les mesh
     void UpdateMesh()
     {
         mesh.Clear();
@@ -148,6 +151,7 @@ public class MeshGenerator : MonoBehaviour
         mesh.RecalculateNormals();
     }
 
+    // Gere les valeurs des variables dans des limites admises
     private void OnValidate()
     {
         if (width < 1)
@@ -170,7 +174,7 @@ public class MeshGenerator : MonoBehaviour
     }
 
 
-    // UI ----------------------------
+    // ------------------------ Gestions des valeurs via l'UI ------------------------
 
 
     public void SetSizeX(float value)

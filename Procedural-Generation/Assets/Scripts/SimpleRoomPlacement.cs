@@ -7,18 +7,22 @@ using UnityEngine.UIElements;
 
 public class SimpleRoomPlacement : MonoBehaviour
 {
+    [Header("Room Generations")]
     public bool createNewRooms = false;
     public float timeToCreate = 0.1f;
 
+    [Header("Game Objects Reference")]
     public GameObject simpleRoomGenerator;
     public GameObject roomPrefab;
     public GameObject roomGenerator;
     public GameObject corridorGenerator;
 
+    [Header("Map Size Settings")]
     public int minMapSize = 100;
     public int mapSizeX = 100;
     public int mapSizeY = 100;
 
+    [Header("Room Settings")]
     public int minRoomSize = 10;
     public int maxRoomSize = 50;
     public int roomSpace = 1;
@@ -30,7 +34,7 @@ public class SimpleRoomPlacement : MonoBehaviour
     public List<GameObject> rooms;
     public List<GameObject> roomsOrdered;
 
-
+    [Header("Menus Reference")]
     [SerializeField] GameObject timeText;
     [SerializeField] GameObject MapSizeXText;
     [SerializeField] GameObject MapSizeYText;
@@ -54,6 +58,7 @@ public class SimpleRoomPlacement : MonoBehaviour
         }
     }
 
+    // Fonction gerant la creation et destruction des rooms
     private void InitSimpleRoom()
     {
         StopAllCoroutines();
@@ -158,6 +163,7 @@ public class SimpleRoomPlacement : MonoBehaviour
                 
                 Vector3 point2 = room2.transform.localPosition;
                 
+                // Si la salle est a droite
                 if (point.x - point2.x < point.z - point2.z || point2.x - point.x > point2.z - point.z)
                 {
                     corridor.name = "Corridor Droite - " + i;
@@ -169,6 +175,7 @@ public class SimpleRoomPlacement : MonoBehaviour
                     
                     corridor.GetComponent<MeshRenderer>().material.color = Color.green;
 
+                    // Si le corridor n'est pas relie a l'autre salle
                     if (corridor.transform.localPosition.z + corridor.transform.localScale.z / 2 > (room2.transform.localPosition.z + room2.transform.localScale.z / 2) || corridor.transform.localPosition.z - corridor.transform.localScale.z / 2 < (room2.transform.localPosition.z - room2.transform.localScale.z / 2))
                     {
                         GameObject corridor2 = Instantiate(roomPrefab, corridorGenerator.transform);
@@ -193,6 +200,7 @@ public class SimpleRoomPlacement : MonoBehaviour
                     
                     corridor.GetComponent<MeshRenderer>().material.color = Color.red;
 
+                    // Si le corridor n'est pas relie a l'autre salle
                     if (corridor.transform.localPosition.x + corridor.transform.localScale.x / 2 < (room2.transform.localPosition.x - room2.transform.localScale.x / 2) ||
                         corridor.transform.localPosition.x - corridor.transform.localScale.x / 2 > (room2.transform.localPosition.x + room2.transform.localScale.x / 2))
                     {
@@ -211,6 +219,7 @@ public class SimpleRoomPlacement : MonoBehaviour
         }
     }
 
+    // Gere les valeurs des variables dans des limites admises
     private void OnValidate()
     {
         if (mapSizeX < minMapSize) mapSizeX = minMapSize;
@@ -226,6 +235,9 @@ public class SimpleRoomPlacement : MonoBehaviour
         if (minRoomSize > maxRoomSize) minRoomSize = maxRoomSize;
         if (minRoomSize < 1) minRoomSize = 1;
     }
+
+
+    // ------------------------ Gestions des valeurs via l'UI ------------------------
 
     public void CreateRoomsButton()
     {

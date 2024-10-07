@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class CameraScript : MonoBehaviour
 {
-    Transform cameraTransform;
 
+
+    private Transform cameraTransform;
+
+    [Header("Camera Positions")]
     [SerializeField] GameObject position1;
     [SerializeField] GameObject position2;
     [SerializeField] GameObject position3;
@@ -14,12 +17,14 @@ public class CameraScript : MonoBehaviour
 
     private int index = 0;
 
+    [Header("Methods Menu")]
     [SerializeField] GameObject perlinNoiseMenu;
     [SerializeField] GameObject perlinNoiseMenu2;
     [SerializeField] GameObject simpleroomMenu;
     [SerializeField] GameObject dlaMenu;
     [SerializeField] GameObject cellularAutomataMenu;
 
+    [Header("Methods Game Object")]
     [SerializeField] GameObject perlinNoise;
     [SerializeField] GameObject perlinNoise2;
     [SerializeField] GameObject simpleroom;
@@ -62,35 +67,35 @@ public class CameraScript : MonoBehaviour
             Application.Quit();
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             index = 0;
             cameraTransform.position = position1.transform.position;
             cameraTransform.rotation = position1.transform.rotation;
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
+        if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             index = 1;
             cameraTransform.position = position2.transform.position;
             cameraTransform.rotation = position2.transform.rotation;
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
+        if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             index = 2;
             cameraTransform.position = position3.transform.position;
             cameraTransform.rotation = position3.transform.rotation;
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4))
+        if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             index = 3;
             cameraTransform.position = position4.transform.position;
             cameraTransform.rotation = position4.transform.rotation;
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha5) || Input.GetKeyDown(KeyCode.Keypad5))
+        if (Input.GetKeyDown(KeyCode.Alpha5))
         {
             index = 4;
             cameraTransform.position = position5.transform.position;
@@ -101,6 +106,7 @@ public class CameraScript : MonoBehaviour
         SetActiveProcGen(index);
     }
 
+    // Fonction qui rend actif le menu de la methode actuelle et desactive celles qui ne le sont pas
     private void SetMenus(int index)
     {
         for (int i = 0; i < menus.Count; i++)
@@ -113,6 +119,7 @@ public class CameraScript : MonoBehaviour
         }
     }
 
+    // Fonction qui rend actif le Game Object de la methode actuelle et desactive celles qui ne le sont pas
     private void SetActiveProcGen(int index)
     {
         for (int i = 0; i < procGenList.Count; i++)
