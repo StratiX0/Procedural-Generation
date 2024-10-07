@@ -50,6 +50,7 @@ public class DLACreate : MonoBehaviour
         //Search if there is any prefabs in allPrefabs List
         if (allPrefabs != null)
         {
+            StopAllCoroutines();
             if (allPrefabs.Count > 0)
             {
                 //Destroy every prefab
